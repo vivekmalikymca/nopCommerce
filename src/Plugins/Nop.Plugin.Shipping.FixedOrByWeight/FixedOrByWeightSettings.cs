@@ -3,7 +3,7 @@ using Nop.Core.Configuration;
 
 namespace Nop.Plugin.Shipping.FixedOrByWeight
 {
-    public class ShippingByWeightSettings : ISettings
+    public class FixedOrByWeightSettings : ISettings
     {
         public bool LimitMethodsToCreated { get; set; }
 

@@ -6,10 +6,10 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Models
     {
         public int ShippingMethodId { get; set; }
 
-        [NopResourceDisplayName("Plugins.Shipping.FixedRateShipping.Fields.ShippingMethod")]
+        [NopResourceDisplayName("Plugins.Shipping.FixedOrByWeight.Fields.ShippingMethod")]
         public string ShippingMethodName { get; set; }
 
-        [NopResourceDisplayName("Plugins.Shipping.FixedRateShipping.Fields.Rate")]
+        [NopResourceDisplayName("Plugins.Shipping.FixedOrByWeight.Fields.Rate")]
         public decimal Rate { get; set; }
     }
 }

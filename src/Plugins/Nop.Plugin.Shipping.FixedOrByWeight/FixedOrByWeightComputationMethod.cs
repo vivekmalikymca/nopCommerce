@@ -25,7 +25,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight
         private readonly ISettingService _settingService;
         private readonly IShippingService _shippingService;
         private readonly IShippingByWeightService _shippingByWeightService;
-        private readonly ShippingByWeightSettings _shippingByWeightSettings;
+        private readonly FixedOrByWeightSettings _fixedOrByWeightSettings;
         private readonly IStoreContext _storeContext;
         private readonly IPriceCalculationService _priceCalculationService;
         private readonly ShippingByWeightObjectContext _objectContext;
@@ -35,7 +35,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight
         #region Ctor
         public FixedOrByWeightComputationMethod(ISettingService settingService,
             IShippingService shippingService,
-            ShippingByWeightSettings shippingByWeightSettings,
+            FixedOrByWeightSettings fixedOrByWeightSettings,
             IShippingByWeightService shippingByWeightService,
             IStoreContext storeContext,
             IPriceCalculationService priceCalculationService,
@@ -43,7 +43,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight
         {
             this._settingService = settingService;
             this._shippingService = shippingService;
-            this._shippingByWeightSettings = shippingByWeightSettings;
+            this._fixedOrByWeightSettings = fixedOrByWeightSettings;
             this._shippingByWeightService = shippingByWeightService;
             this._storeContext = storeContext;
             this._priceCalculationService = priceCalculationService;
@@ -55,7 +55,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight
 
         private decimal GetRate(int shippingMethodId)
         {
-            var key = string.Format("ShippingRateComputationMethod.FixedRate.Rate.ShippingMethodId{0}", shippingMethodId);
+            var key = string.Format("ShippingRateComputationMethod.FixedOrByWeight.Rate.ShippingMethodId{0}", shippingMethodId);
             var rate = _settingService.GetSettingByKey<decimal>(key);
             return rate;
         }
@@ -67,7 +67,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight
                 storeId, warehouseId, countryId, stateProvinceId, zip, weight);
             if (shippingByWeightRecord == null)
             {
-                if (_shippingByWeightSettings.LimitMethodsToCreated)
+                if (_fixedOrByWeightSettings.LimitMethodsToCreated)
                     return null;
 
                 return decimal.Zero;
@@ -116,7 +116,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight
                 return response;
             }
 
-            if (_shippingByWeightSettings.Enabled)
+            if (_fixedOrByWeightSettings.Enabled)
             {
                 if (getShippingOptionRequest.ShippingAddress == null)
                 {
@@ -189,7 +189,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight
         /// <returns>Fixed shipping rate; or null in case there's no fixed shipping rate</returns>
         public decimal? GetFixedRate(GetShippingOptionRequest getShippingOptionRequest)
         {
-            if (_shippingByWeightSettings.Enabled)
+            if (_fixedOrByWeightSettings.Enabled)
                 return null;
 
             if (getShippingOptionRequest == null)
@@ -232,7 +232,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight
         public override void Install()
         {
             //settings
-            var settings = new ShippingByWeightSettings
+            var settings = new FixedOrByWeightSettings
             {
                 LimitMethodsToCreated = false,
                 Enabled = false
@@ -286,7 +286,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight
         public override void Uninstall()
         {
             //settings
-            _settingService.DeleteSetting<ShippingByWeightSettings>();
+            _settingService.DeleteSetting<FixedOrByWeightSettings>();
 
             //database objects
             _objectContext.Uninstall();

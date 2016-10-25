@@ -27,7 +27,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
         private readonly IShippingService _shippingService;
         private readonly ISettingService _settingService;
         private readonly IPermissionService _permissionService;
-        private readonly ShippingByWeightSettings _shippingByWeightSettings;
+        private readonly FixedOrByWeightSettings _fixedOrByWeightSettings;
 
 
         private readonly IStoreService _storeService;
@@ -53,12 +53,12 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
             CurrencySettings currencySettings,
             IMeasureService measureService,
             MeasureSettings measureSettings,
-            ShippingByWeightSettings shippingByWeightSettings)
+            FixedOrByWeightSettings fixedOrByWeightSettings)
         {
             this._shippingService = shippingServicee;
             this._settingService = settingService;
             this._permissionService = permissionService;
-            this._shippingByWeightSettings = shippingByWeightSettings;
+            this._fixedOrByWeightSettings = fixedOrByWeightSettings;
 
             this._storeService = storeService;
             this._countryService = countryService;
@@ -85,8 +85,8 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
         {
             var model = new ShippingByWeightListModel
             {
-                LimitMethodsToCreated = _shippingByWeightSettings.LimitMethodsToCreated,
-                Enabled = _shippingByWeightSettings.Enabled
+                LimitMethodsToCreated = _fixedOrByWeightSettings.LimitMethodsToCreated,
+                Enabled = _fixedOrByWeightSettings.Enabled
             };
             return View("~/Plugins/Shipping.FixedOrByWeight/Views/FixedOrByWeight/Configure.cshtml", model);
         }
@@ -96,8 +96,8 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
         public ActionResult SaveGeneralSettings(ShippingByWeightListModel model)
         {
             //save settings
-            _shippingByWeightSettings.LimitMethodsToCreated = model.LimitMethodsToCreated;
-            _settingService.SaveSetting(_shippingByWeightSettings);
+            _fixedOrByWeightSettings.LimitMethodsToCreated = model.LimitMethodsToCreated;
+            _settingService.SaveSetting(_fixedOrByWeightSettings);
 
             return Json(new { Result = true });
         }
@@ -136,7 +136,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
             var shippingMethodId = model.ShippingMethodId;
             var rate = model.Rate;
 
-            _settingService.SetSetting(string.Format("ShippingRateComputationMethod.FixedRate.Rate.ShippingMethodId{0}", shippingMethodId), rate);
+            _settingService.SetSetting(string.Format("ShippingRateComputationMethod.FixedOrByWeight.Rate.ShippingMethodId{0}", shippingMethodId), rate);
 
             return new NullJsonResult();
         }
@@ -144,7 +144,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
         [NonAction]
         protected decimal GetShippingRate(int shippingMethodId)
         {
-            var rate = _settingService.GetSettingByKey<decimal>(string.Format("ShippingRateComputationMethod.FixedRate.Rate.ShippingMethodId{0}", shippingMethodId));
+            var rate = _settingService.GetSettingByKey<decimal>(string.Format("ShippingRateComputationMethod.FixedOrByWeight.Rate.ShippingMethodId{0}", shippingMethodId));
             return rate;
         }
 
@@ -401,8 +401,8 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
         public ActionResult SaveMode(bool value)
         {
             //save settings
-            _shippingByWeightSettings.Enabled = value;
-            _settingService.SaveSetting(_shippingByWeightSettings);
+            _fixedOrByWeightSettings.Enabled = value;
+            _settingService.SaveSetting(_fixedOrByWeightSettings);
 
             return Json(new
             {

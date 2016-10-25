@@ -1181,3 +1181,23 @@ UPDATE [Setting]
 SET [Name] = N'catalogsettings.showskuonproductdetailspage' 
 WHERE [Name] = N'catalogsettings.showproductsku'
 GO
+
+ --new setting
+IF NOT EXISTS (SELECT 1 FROM [Setting] WHERE [name] = N'limitmethodstocreated.enabled')
+BEGIN
+	INSERT [Setting] ([Name], [Value], [StoreId])
+	VALUES (N'limitmethodstocreated.enabled', N'False', 0)
+END
+GO
+
+--rename settings
+UPDATE [Setting] 
+SET [Name] = N'fixedorbyweightsettings.limitmethodstocreated' 
+WHERE [Name] = N'shippingbyweightsettings.limitmethodstocreated'
+GO
+
+--rename settings
+UPDATE [Setting] 
+SET [Name] = N'shippingratecomputationmethod.fixedorbyweight.rate.shippingmethodid' + SUBSTRING(name, 62, len(name))
+WHERE [Name] like N'shippingratecomputationmethod.fixedrate.rate.shippingmethodid%'
+GO

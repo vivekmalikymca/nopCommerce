@@ -68,7 +68,7 @@
     <Compile Include="Data\ShippingByWeightRecordMap.cs" />
     <Compile Include="DependencyRegistrar.cs" />
     <Compile Include="Domain\ShippingByWeightRecord.cs" />
-    <Compile Include="FixedRateOrByWeightComputationMethod.cs" />
+    <Compile Include="FixedOrByWeightComputationMethod.cs" />
     <Compile Include="Models\FixedRateModel.cs" />
     <Compile Include="Models\ShippingByWeightListModel.cs" />
     <Compile Include="Models\ShippingByWeightModel.cs" />
@@ -76,7 +76,7 @@
     <Compile Include="RouteProvider.cs" />
     <Compile Include="Services\IShippingByWeightService.cs" />
     <Compile Include="Services\ShippingByWeightService.cs" />
-    <Compile Include="ShippingByWeightSettings.cs" />
+    <Compile Include="FixedOrByWeightSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Description.txt">
