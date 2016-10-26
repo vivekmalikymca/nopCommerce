@@ -70,7 +70,7 @@
     <Compile Include="Domain\ShippingByWeightRecord.cs" />
     <Compile Include="FixedOrByWeightComputationMethod.cs" />
     <Compile Include="Models\FixedRateModel.cs" />
-    <Compile Include="Models\ShippingByWeightListModel.cs" />
+    <Compile Include="Models\ConfigurationModel.cs" />
     <Compile Include="Models\ShippingByWeightModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteProvider.cs" />
@@ -100,13 +100,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <Content Include="Views\FixedOrByWeight\_CreateOrUpdate.cshtml">
+    <Content Include="Views\FixedOrByWeight\_CreateOrUpdateRateByWeight.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\FixedOrByWeight\AddPopup.cshtml">
+    <Content Include="Views\FixedOrByWeight\AddRateByWeightPopup.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\FixedOrByWeight\EditPopup.cshtml">
+    <Content Include="Views\FixedOrByWeight\EditRateByWeightPopup.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\FixedOrByWeight\_ByWeight.cshtml">

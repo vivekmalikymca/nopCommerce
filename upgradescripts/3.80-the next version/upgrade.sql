@@ -494,9 +494,6 @@ set @resources='
   <LocaleResource Name="Plugins.Shipping.FixedOrByWeight.Fields.ShippingMethod">
     <Value>Shipping method</Value>
   </LocaleResource>
-  <LocaleResource Name="Plugins.Shipping.FixedOrByWeight.Fields.ShippingMethod.Hint">
-    <Value>The shipping method.</Value>
-  </LocaleResource>
   <LocaleResource Name="Plugins.Shipping.FixedOrByWeight.Fields.From">
     <Value>Order weight from</Value>
   </LocaleResource>
@@ -1183,10 +1180,10 @@ WHERE [Name] = N'catalogsettings.showproductsku'
 GO
 
  --new setting
-IF NOT EXISTS (SELECT 1 FROM [Setting] WHERE [name] = N'limitmethodstocreated.enabled')
+IF NOT EXISTS (SELECT 1 FROM [Setting] WHERE [name] = N'limitmethodstocreated.shippingbyweightenabled')
 BEGIN
 	INSERT [Setting] ([Name], [Value], [StoreId])
-	VALUES (N'limitmethodstocreated.enabled', N'False', 0)
+	VALUES (N'limitmethodstocreated.shippingbyweightenabled', N'False', 0)
 END
 GO
 

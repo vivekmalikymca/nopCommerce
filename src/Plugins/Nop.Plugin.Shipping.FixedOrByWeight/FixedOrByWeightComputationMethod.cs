@@ -116,7 +116,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight
                 return response;
             }
 
-            if (_fixedOrByWeightSettings.Enabled)
+            if (_fixedOrByWeightSettings.ShippingByWeightEnabled)
             {
                 if (getShippingOptionRequest.ShippingAddress == null)
                 {
@@ -189,7 +189,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight
         /// <returns>Fixed shipping rate; or null in case there's no fixed shipping rate</returns>
         public decimal? GetFixedRate(GetShippingOptionRequest getShippingOptionRequest)
         {
-            if (_fixedOrByWeightSettings.Enabled)
+            if (_fixedOrByWeightSettings.ShippingByWeightEnabled)
                 return null;
 
             if (getShippingOptionRequest == null)
@@ -235,7 +235,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight
             var settings = new FixedOrByWeightSettings
             {
                 LimitMethodsToCreated = false,
-                Enabled = false
+                ShippingByWeightEnabled = false
             };
             _settingService.SaveSetting(settings);
 
@@ -257,7 +257,6 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight
             this.AddOrUpdatePluginLocaleResource("Plugins.Shipping.FixedOrByWeight.Fields.Zip", "Zip");
             this.AddOrUpdatePluginLocaleResource("Plugins.Shipping.FixedOrByWeight.Fields.Zip.Hint", "Zip / postal code. If zip is empty, then this shipping rate will apply to all customers from the given country or state, regardless of the zip code.");
             this.AddOrUpdatePluginLocaleResource("Plugins.Shipping.FixedOrByWeight.Fields.ShippingMethod", "Shipping method");
-            this.AddOrUpdatePluginLocaleResource("Plugins.Shipping.FixedOrByWeight.Fields.ShippingMethod.Hint", "The shipping method.");
             this.AddOrUpdatePluginLocaleResource("Plugins.Shipping.FixedOrByWeight.Fields.From", "Order weight from");
             this.AddOrUpdatePluginLocaleResource("Plugins.Shipping.FixedOrByWeight.Fields.From.Hint", "Order weight from.");
             this.AddOrUpdatePluginLocaleResource("Plugins.Shipping.FixedOrByWeight.Fields.To", "Order weight to");
@@ -293,7 +292,6 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight
 
             //locales
             this.DeletePluginLocaleResource("Plugins.Shipping.FixedOrByWeight.Fields.Rate");
-
             this.DeletePluginLocaleResource("Plugins.Shipping.FixedOrByWeight.Fields.Store");
             this.DeletePluginLocaleResource("Plugins.Shipping.FixedOrByWeight.Fields.Store.Hint");
             this.DeletePluginLocaleResource("Plugins.Shipping.FixedOrByWeight.Fields.Warehouse");
@@ -305,7 +303,6 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight
             this.DeletePluginLocaleResource("Plugins.Shipping.FixedOrByWeight.Fields.Zip");
             this.DeletePluginLocaleResource("Plugins.Shipping.FixedOrByWeight.Fields.Zip.Hint");
             this.DeletePluginLocaleResource("Plugins.Shipping.FixedOrByWeight.Fields.ShippingMethod");
-            this.DeletePluginLocaleResource("Plugins.Shipping.FixedOrByWeight.Fields.ShippingMethod.Hint");
             this.DeletePluginLocaleResource("Plugins.Shipping.FixedOrByWeight.Fields.From");
             this.DeletePluginLocaleResource("Plugins.Shipping.FixedOrByWeight.Fields.From.Hint");
             this.DeletePluginLocaleResource("Plugins.Shipping.FixedOrByWeight.Fields.To");

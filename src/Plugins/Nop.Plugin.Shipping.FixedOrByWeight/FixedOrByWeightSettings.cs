@@ -7,6 +7,6 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight
     {
         public bool LimitMethodsToCreated { get; set; }
 
-        public bool Enabled { get; set; }
+        public bool ShippingByWeightEnabled { get; set; }
     }
 }

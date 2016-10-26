@@ -28,8 +28,6 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
         private readonly ISettingService _settingService;
         private readonly IPermissionService _permissionService;
         private readonly FixedOrByWeightSettings _fixedOrByWeightSettings;
-
-
         private readonly IStoreService _storeService;
         private readonly ICountryService _countryService;
         private readonly IStateProvinceService _stateProvinceService;
@@ -39,7 +37,6 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
         private readonly CurrencySettings _currencySettings;
         private readonly IMeasureService _measureService;
         private readonly MeasureSettings _measureSettings;
-
 
         public FixedOrByWeightController(IShippingService shippingServicee,
             ISettingService settingService,
@@ -59,7 +56,6 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
             this._settingService = settingService;
             this._permissionService = permissionService;
             this._fixedOrByWeightSettings = fixedOrByWeightSettings;
-
             this._storeService = storeService;
             this._countryService = countryService;
             this._stateProvinceService = stateProvinceService;
@@ -83,17 +79,17 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
         [ChildActionOnly]
         public ActionResult Configure()
         {
-            var model = new ShippingByWeightListModel
+            var model = new ConfigurationModel
             {
                 LimitMethodsToCreated = _fixedOrByWeightSettings.LimitMethodsToCreated,
-                Enabled = _fixedOrByWeightSettings.Enabled
+                ShippingByWeightEnabled = _fixedOrByWeightSettings.ShippingByWeightEnabled
             };
             return View("~/Plugins/Shipping.FixedOrByWeight/Views/FixedOrByWeight/Configure.cshtml", model);
         }
-
+        
         [HttpPost]
         [AdminAntiForgery]
-        public ActionResult SaveGeneralSettings(ShippingByWeightListModel model)
+        public ActionResult Configure(ConfigurationModel model)
         {
             //save settings
             _fixedOrByWeightSettings.LimitMethodsToCreated = model.LimitMethodsToCreated;
@@ -103,7 +99,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
         }
 
         [HttpPost]
-        public ActionResult Configure(DataSourceRequest command)
+        public ActionResult GetFixedShippingRate(DataSourceRequest command)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
                 return Content("Access denied");
@@ -150,7 +146,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
 
         [HttpPost]
         [AdminAntiForgery]
-        public ActionResult RatesList(DataSourceRequest command)
+        public ActionResult GetRatesByWeight(DataSourceRequest command)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
                 return Content("Access denied");
@@ -189,7 +185,6 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
                 m.StateProvinceName = (s != null) ? s.Name : "*";
                 //zip
                 m.Zip = (!String.IsNullOrEmpty(x.Zip)) ? x.Zip : "*";
-
 
                 var htmlSb = new StringBuilder("<div>");
                 htmlSb.AppendFormat("{0}: {1}", _localizationService.GetResource("Plugins.Shipping.FixedOrByWeight.Fields.From"), m.From);
@@ -267,7 +262,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
             //states
             model.AvailableStates.Add(new SelectListItem { Text = "*", Value = "0" });
 
-            return View("~/Plugins/Shipping.FixedOrByWeight/Views/FixedOrByWeight/AddPopup.cshtml", model);
+            return View("~/Plugins/Shipping.FixedOrByWeight/Views/FixedOrByWeight/AddRateByWeightPopup.cshtml", model);
         }
         [HttpPost]
         [AdminAntiForgery]
@@ -297,7 +292,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
             ViewBag.btnId = btnId;
             ViewBag.formId = formId;
 
-            return View("~/Plugins/Shipping.FixedOrByWeight/Views/FixedOrByWeight/AddPopup.cshtml", model);
+            return View("~/Plugins/Shipping.FixedOrByWeight/Views/FixedOrByWeight/AddRateByWeightPopup.cshtml", model);
         }
 
         //edit
@@ -361,7 +356,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
             foreach (var s in states)
                 model.AvailableStates.Add(new SelectListItem { Text = s.Name, Value = s.Id.ToString(), Selected = (selectedState != null && s.Id == selectedState.Id) });
 
-            return View("~/Plugins/Shipping.FixedOrByWeight/Views/FixedOrByWeight/EditPopup.cshtml", model);
+            return View("~/Plugins/Shipping.FixedOrByWeight/Views/FixedOrByWeight/EditRateByWeightPopup.cshtml", model);
         }
 
         [HttpPost]
@@ -394,14 +389,14 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
             ViewBag.btnId = btnId;
             ViewBag.formId = formId;
 
-            return View("~/Plugins/Shipping.FixedOrByWeight/Views/FixedOrByWeight/EditPopup.cshtml", model);
+            return View("~/Plugins/Shipping.FixedOrByWeight/Views/FixedOrByWeight/EditRateByWeightPopup.cshtml", model);
         }
 
         [HttpPost]
         public ActionResult SaveMode(bool value)
         {
             //save settings
-            _fixedOrByWeightSettings.Enabled = value;
+            _fixedOrByWeightSettings.ShippingByWeightEnabled = value;
             _settingService.SaveSetting(_fixedOrByWeightSettings);
 
             return Json(new
