@@ -86,7 +86,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
             };
             return View("~/Plugins/Shipping.FixedOrByWeight/Views/FixedOrByWeight/Configure.cshtml", model);
         }
-        
+
         [HttpPost]
         [AdminAntiForgery]
         public ActionResult Configure(ConfigurationModel model)
@@ -99,7 +99,22 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetFixedShippingRate(DataSourceRequest command)
+        public ActionResult SaveMode(bool value)
+        {
+            //save settings
+            _fixedOrByWeightSettings.ShippingByWeightEnabled = value;
+            _settingService.SaveSetting(_fixedOrByWeightSettings);
+
+            return Json(new
+            {
+                Result = true
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        #region Fixed rate
+
+        [HttpPost]
+        public ActionResult GetFixedShippingRateList(DataSourceRequest command)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
                 return Content("Access denied");
@@ -110,7 +125,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
                 {
                     ShippingMethodId = shippingMethod.Id,
                     ShippingMethodName = shippingMethod.Name,
-                    Rate = GetShippingRate(shippingMethod.Id)
+                    Rate = GetFixedShippingRate(shippingMethod.Id)
                 });
 
             var gridModel = new DataSourceResult
@@ -124,7 +139,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
 
         [HttpPost]
         [AdminAntiForgery]
-        public ActionResult ShippingRateUpdate(FixedRateModel model)
+        public ActionResult UpdateFixedShippingRate(FixedRateModel model)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
                 return Content("Access denied");
@@ -138,15 +153,19 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
         }
 
         [NonAction]
-        protected decimal GetShippingRate(int shippingMethodId)
+        protected decimal GetFixedShippingRate(int shippingMethodId)
         {
             var rate = _settingService.GetSettingByKey<decimal>(string.Format("ShippingRateComputationMethod.FixedOrByWeight.Rate.ShippingMethodId{0}", shippingMethodId));
             return rate;
         }
 
+        #endregion
+
+        #region Rate by weight
+
         [HttpPost]
         [AdminAntiForgery]
-        public ActionResult GetRatesByWeight(DataSourceRequest command)
+        public ActionResult GetRateByWeightList(DataSourceRequest command)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
                 return Content("Access denied");
@@ -213,10 +232,10 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
 
             return Json(gridModel);
         }
-
+        
         [HttpPost]
         [AdminAntiForgery]
-        public ActionResult RateDelete(int id)
+        public ActionResult DeleteRateByWeigh(int id)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
                 return Content("Access denied");
@@ -229,15 +248,18 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
         }
 
         //add
-        public ActionResult AddPopup()
+        public ActionResult AddRateByWeighPopup()
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
                 return Content("Access denied");
 
-            var model = new ShippingByWeightModel();
-            model.PrimaryStoreCurrencyCode = _currencyService.GetCurrencyById(_currencySettings.PrimaryStoreCurrencyId).CurrencyCode;
-            model.BaseWeightIn = _measureService.GetMeasureWeightById(_measureSettings.BaseWeightId).Name;
-            model.To = 1000000;
+            var model = new ShippingByWeightModel
+            {
+                PrimaryStoreCurrencyCode =
+                    _currencyService.GetCurrencyById(_currencySettings.PrimaryStoreCurrencyId).CurrencyCode,
+                BaseWeightIn = _measureService.GetMeasureWeightById(_measureSettings.BaseWeightId).Name,
+                To = 1000000
+            };
 
             var shippingMethods = _shippingService.GetAllShippingMethods();
             if (!shippingMethods.Any())
@@ -264,9 +286,10 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
 
             return View("~/Plugins/Shipping.FixedOrByWeight/Views/FixedOrByWeight/AddRateByWeightPopup.cshtml", model);
         }
+
         [HttpPost]
         [AdminAntiForgery]
-        public ActionResult AddPopup(string btnId, string formId, ShippingByWeightModel model)
+        public ActionResult AddRateByWeighPopup(string btnId, string formId, ShippingByWeightModel model)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
                 return Content("Access denied");
@@ -296,7 +319,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
         }
 
         //edit
-        public ActionResult EditPopup(int id)
+        public ActionResult EditRateByWeighPopup(int id)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
                 return Content("Access denied");
@@ -361,7 +384,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
 
         [HttpPost]
         [AdminAntiForgery]
-        public ActionResult EditPopup(string btnId, string formId, ShippingByWeightModel model)
+        public ActionResult EditRateByWeighPopup(string btnId, string formId, ShippingByWeightModel model)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
                 return Content("Access denied");
@@ -392,17 +415,6 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
             return View("~/Plugins/Shipping.FixedOrByWeight/Views/FixedOrByWeight/EditRateByWeightPopup.cshtml", model);
         }
 
-        [HttpPost]
-        public ActionResult SaveMode(bool value)
-        {
-            //save settings
-            _fixedOrByWeightSettings.ShippingByWeightEnabled = value;
-            _settingService.SaveSetting(_fixedOrByWeightSettings);
-
-            return Json(new
-            {
-                Result = true
-            }, JsonRequestBehavior.AllowGet);
-        }
+        #endregion
     }
 }

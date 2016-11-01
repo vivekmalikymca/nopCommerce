@@ -14,15 +14,15 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight
                  new[] { "Nop.Plugin.Shipping.FixedOrByWeight.Controllers" }
             );
 
-            routes.MapRoute("Plugin.Shipping.FixedOrByWeight.AddPopup",
-                 "Plugins/FixedOrByWeight/AddPopup",
-                 new { controller = "FixedOrByWeight", action = "AddPopup" },
+            routes.MapRoute("Plugin.Shipping.FixedOrByWeight.AddRateByWeighPopup",
+                 "Plugins/FixedOrByWeight/AddRateByWeighPopup",
+                 new { controller = "FixedOrByWeight", action = "AddRateByWeighPopup" },
                  new[] { "Nop.Plugin.Shipping.FixedOrByWeight.Controllers" }
             );
 
-            routes.MapRoute("Plugin.Shipping.FixedOrByWeight.EditPopup",
-                 "Plugins/FixedOrByWeight/EditPopup",
-                 new { controller = "FixedOrByWeight", action = "EditPopup" },
+            routes.MapRoute("Plugin.Shipping.FixedOrByWeight.EditRateByWeighPopup",
+                 "Plugins/FixedOrByWeight/EditRateByWeighPopup",
+                 new { controller = "FixedOrByWeight", action = "EditRateByWeighPopup" },
                  new[] { "Nop.Plugin.Shipping.FixedOrByWeight.Controllers" }
             );
         }

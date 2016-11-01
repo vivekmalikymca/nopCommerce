@@ -17,7 +17,6 @@
                     @T("Plugins.Shipping.FixedOrByWeight.Formula.Value")
                 </p>
                 <div id="shipping-byweight-grid"></div>
-
                 <script>
                     $(document)
                         .ready(function() {
@@ -28,14 +27,14 @@
                                         transport: {
                                             read: {
                                                 url:
-                                                    "@Html.Raw(Url.Action("GetRatesByWeight", "FixedOrByWeight", new RouteValueDictionary {{"Namespaces", "Nop.Plugin.Shipping.FixedOrByWeight.Controllers"}, {"area", ""}}))",
+                                                    "@Html.Raw(Url.Action("GetRateByWeightList", "FixedOrByWeight", new RouteValueDictionary {{"Namespaces", "Nop.Plugin.Shipping.FixedOrByWeight.Controllers"}, {"area", ""}}))",
                                                 type: "POST",
                                                 dataType: "json",
                                                 data: addAntiForgeryToken
                                             },
                                             destroy: {
                                                 url:
-                                                    "@Html.Raw(Url.Action("RateDelete", "FixedOrByWeight", new RouteValueDictionary {{"Namespaces", "Nop.Plugin.Shipping.FixedOrByWeight.Controllers"}, {"area", ""}}))",
+                                                    "@Html.Raw(Url.Action("DeleteRateByWeigh", "FixedOrByWeight", new RouteValueDictionary {{"Namespaces", "Nop.Plugin.Shipping.FixedOrByWeight.Controllers"}, {"area", ""}}))",
                                                 type: "POST",
                                                 dataType: "json",
                                                 data: addAntiForgeryToken
@@ -108,7 +107,7 @@
                                             title: "@T("Admin.Common.Edit")",
                                             width: 100,
                                             template:
-                                                "<input type='submit' value='@T("Admin.Common.Edit")' onclick=\"javascript:OpenWindow('@Url.RouteUrl("Plugin.Shipping.FixedOrByWeight.EditPopup")?id=#=Id#&btnId=btnRefresh&formId=shipping-byweight-form', 800, 800, true); return false;\" class='btn btn-default' />"
+                                                "<input type='submit' value='@T("Admin.Common.Edit")' onclick=\"javascript:OpenWindow('@Url.RouteUrl("Plugin.Shipping.FixedOrByWeight.EditRateByWeighPopup")?id=#=Id#&btnId=btnRefresh&formId=shipping-byweight-form', 800, 800, true); return false;\" class='btn btn-default' />"
                                         }, {
                                             command: { name: "destroy", text: "@T("Admin.Common.Delete")" },
                                             title: "@T("Admin.Common.Delete")",
@@ -121,12 +120,11 @@
             </div>
             <div class="panel-footer">
                 @{
-                    var addNewUrl = Url.RouteUrl("Plugin.Shipping.FixedOrByWeight.AddPopup") + "?btnId=btnRefresh&formId=shipping-byweight-form";
+                    var addNewUrl = Url.RouteUrl("Plugin.Shipping.FixedOrByWeight.AddRateByWeighPopup") + "?btnId=btnRefresh&formId=shipping-byweight-form";
                 }
                 <input type="submit" id="btnAddNewOption" class="btn btn-primary" value="@T("Plugins.Shipping.FixedOrByWeight.AddRecord")" onclick="javascript:OpenWindow('@(addNewUrl)', 800, 800, true); return false;"/>
                 <input type="submit" id="btnRefresh" class="btn btn-default" style="display: none"/>
             </div>
-
             <script type="text/javascript">
                 $(document)
                     .ready(function() {
@@ -143,8 +141,6 @@
                     });
             </script>
         </div>
-
-
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="form-group">
@@ -190,11 +186,9 @@
                                         });
                                 });
                         </script>
-
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 }
