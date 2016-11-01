@@ -13,7 +13,7 @@
                                     transport: {
                                         read: {
                                             url:
-                                                "@Html.Raw(Url.Action("GetFixedShippingRateList", "FixedOrByWeight", new RouteValueDictionary {{"Namespaces", "Nop.Plugin.Shipping.FixedOrByWeight.Controllers"}, {"area", ""}}))",
+                                                "@Html.Raw(Url.Action("FixedShippingRateList", "FixedOrByWeight", new RouteValueDictionary {{"Namespaces", "Nop.Plugin.Shipping.FixedOrByWeight.Controllers"}, {"area", ""}}))",
                                             type: "POST",
                                             dataType: "json",
                                             data: addAntiForgeryToken

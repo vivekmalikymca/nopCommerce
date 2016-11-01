@@ -79,6 +79,9 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
         [ChildActionOnly]
         public ActionResult Configure()
         {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
+                return Content("Access denied");
+
             var model = new ConfigurationModel
             {
                 LimitMethodsToCreated = _fixedOrByWeightSettings.LimitMethodsToCreated,
@@ -91,6 +94,9 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
         [AdminAntiForgery]
         public ActionResult Configure(ConfigurationModel model)
         {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
+                return Content("Access denied");
+
             //save settings
             _fixedOrByWeightSettings.LimitMethodsToCreated = model.LimitMethodsToCreated;
             _settingService.SaveSetting(_fixedOrByWeightSettings);
@@ -101,6 +107,9 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
         [HttpPost]
         public ActionResult SaveMode(bool value)
         {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
+                return Content("Access denied");
+
             //save settings
             _fixedOrByWeightSettings.ShippingByWeightEnabled = value;
             _settingService.SaveSetting(_fixedOrByWeightSettings);
@@ -114,7 +123,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
         #region Fixed rate
 
         [HttpPost]
-        public ActionResult GetFixedShippingRateList(DataSourceRequest command)
+        public ActionResult FixedShippingRateList(DataSourceRequest command)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
                 return Content("Access denied");
@@ -125,7 +134,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
                 {
                     ShippingMethodId = shippingMethod.Id,
                     ShippingMethodName = shippingMethod.Name,
-                    Rate = GetFixedShippingRate(shippingMethod.Id)
+                    Rate = GetFixedShippingRateValue(shippingMethod.Id)
                 });
 
             var gridModel = new DataSourceResult
@@ -153,7 +162,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
         }
 
         [NonAction]
-        protected decimal GetFixedShippingRate(int shippingMethodId)
+        protected decimal GetFixedShippingRateValue(int shippingMethodId)
         {
             var rate = _settingService.GetSettingByKey<decimal>(string.Format("ShippingRateComputationMethod.FixedOrByWeight.Rate.ShippingMethodId{0}", shippingMethodId));
             return rate;
@@ -165,7 +174,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
 
         [HttpPost]
         [AdminAntiForgery]
-        public ActionResult GetRateByWeightList(DataSourceRequest command)
+        public ActionResult RateByWeightList(DataSourceRequest command)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
                 return Content("Access denied");
@@ -232,22 +241,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
 
             return Json(gridModel);
         }
-        
-        [HttpPost]
-        [AdminAntiForgery]
-        public ActionResult DeleteRateByWeigh(int id)
-        {
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
-                return Content("Access denied");
 
-            var sbw = _shippingByWeightService.GetById(id);
-            if (sbw != null)
-                _shippingByWeightService.DeleteShippingByWeightRecord(sbw);
-
-            return new NullJsonResult();
-        }
-
-        //add
         public ActionResult AddRateByWeighPopup()
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
@@ -286,7 +280,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
 
             return View("~/Plugins/Shipping.FixedOrByWeight/Views/FixedOrByWeight/AddRateByWeightPopup.cshtml", model);
         }
-
+        
         [HttpPost]
         [AdminAntiForgery]
         public ActionResult AddRateByWeighPopup(string btnId, string formId, ShippingByWeightModel model)
@@ -317,8 +311,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
 
             return View("~/Plugins/Shipping.FixedOrByWeight/Views/FixedOrByWeight/AddRateByWeightPopup.cshtml", model);
         }
-
-        //edit
+        
         public ActionResult EditRateByWeighPopup(int id)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
@@ -413,6 +406,20 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
             ViewBag.formId = formId;
 
             return View("~/Plugins/Shipping.FixedOrByWeight/Views/FixedOrByWeight/EditRateByWeightPopup.cshtml", model);
+        }
+
+        [HttpPost]
+        [AdminAntiForgery]
+        public ActionResult DeleteRateByWeigh(int id)
+        {
+            if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
+                return Content("Access denied");
+
+            var sbw = _shippingByWeightService.GetById(id);
+            if (sbw != null)
+                _shippingByWeightService.DeleteShippingByWeightRecord(sbw);
+
+            return new NullJsonResult();
         }
 
         #endregion
