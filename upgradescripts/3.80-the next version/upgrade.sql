@@ -521,6 +521,39 @@ set @resources='
   <LocaleResource Name="ShoppingCart.AvailabilityRange">
     <Value>Available in {0}</Value>
   </LocaleResource>
+  <LocaleResource Name="Admin.Promotions.Discounts.Requirements.CurrentFormula">
+    <Value>Current formula: </Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Promotions.Discounts.Requirements.DiscountRequirementType.AddGroup">
+    <Value>Add requirement group</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Promotions.Discounts.Requirements.InteractionType">
+    <Value>Interaction type</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Promotions.Discounts.Requirements.InteractionType.Hint">
+    <Value>Choose an interaction type with subsequent discount requirement.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Promotions.Discounts.Requirements.RequirementGroup">
+    <Value>Add to group</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Promotions.Discounts.Requirements.RequirementGroup.Hint">
+    <Value>Choose the requirement group.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Promotions.Discounts.Requirements.RequirementGroup.None">
+    <Value>None</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Promotions.Discounts.Requirements.RequirementGroup.Title">
+    <Value>Requirement group: #</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.Promotions.Discounts.Requirements.RemoveGroup">
+    <Value>Remove requirement group</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.Nop.Core.Domain.Discounts.RequirementInteractionType.And">
+    <Value>AND</Value>
+  </LocaleResource>
+  <LocaleResource Name="Enums.Nop.Core.Domain.Discounts.RequirementInteractionType.Or">
+    <Value>OR</Value>
+  </LocaleResource>
 </Language>
 '
 
@@ -1237,4 +1270,28 @@ WHERE [ProductAvailabilityRangeId] IS NULL
 GO
 
 ALTER TABLE [Product] ALTER COLUMN [ProductAvailabilityRangeId] int NOT NULL
+GO
+
+--new column
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id=object_id('[DiscountRequirement]') and NAME='InteractionTypeId')
+BEGIN
+	ALTER TABLE [DiscountRequirement]
+	ADD [InteractionTypeId] int NULL
+END
+GO
+
+UPDATE [DiscountRequirement]
+SET [InteractionTypeId] = 0
+WHERE [InteractionTypeId] IS NULL
+GO
+
+ALTER TABLE [DiscountRequirement] ALTER COLUMN [InteractionTypeId] int NOT NULL
+GO
+
+--new column
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id=object_id('[DiscountRequirement]') and NAME='ParentId')
+BEGIN
+	ALTER TABLE [DiscountRequirement]
+	ADD [ParentId] int NULL
+END
 GO
