@@ -124,7 +124,7 @@ namespace Nop.Services.Discounts
         /// <returns>True if result is valid; otherwise false</returns>
         protected bool GetValidationResult(IEnumerable<DiscountRequirementForCaching> requirements, Customer customer, ref StringBuilder errors)
         {
-            var result = false;
+            var result = true;
 
             foreach (var requirement in requirements)
             {
