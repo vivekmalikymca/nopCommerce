@@ -33,6 +33,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight
         #endregion
 
         #region Ctor
+
         public FixedOrByWeightComputationMethod(ISettingService settingService,
             IShippingService shippingService,
             FixedOrByWeightSettings fixedOrByWeightSettings,
@@ -49,6 +50,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight
             this._priceCalculationService = priceCalculationService;
             this._objectContext = objectContext;
         }
+
         #endregion
         
         #region Utilities
