@@ -79,9 +79,6 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
         [ChildActionOnly]
         public ActionResult Configure()
         {
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
-                return Content("Access denied");
-
             var model = new ConfigurationModel
             {
                 LimitMethodsToCreated = _fixedOrByWeightSettings.LimitMethodsToCreated,
@@ -245,7 +242,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
         public ActionResult AddRateByWeighPopup()
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
-                return Content("Access denied");
+                return RedirectToAction("AccessDenied", "Security", new { pageUrl = this.Request.RawUrl });
 
             var model = new ShippingByWeightModel
             {
@@ -286,7 +283,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
         public ActionResult AddRateByWeighPopup(string btnId, string formId, ShippingByWeightModel model)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
-                return Content("Access denied");
+                return RedirectToAction("AccessDenied", "Security", new { pageUrl = this.Request.RawUrl });
 
             var sbw = new ShippingByWeightRecord
             {
@@ -315,7 +312,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
         public ActionResult EditRateByWeighPopup(int id)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
-                return Content("Access denied");
+                return RedirectToAction("AccessDenied", "Security", new { pageUrl = this.Request.RawUrl });
 
             var sbw = _shippingByWeightService.GetById(id);
             if (sbw == null)
@@ -380,7 +377,7 @@ namespace Nop.Plugin.Shipping.FixedOrByWeight.Controllers
         public ActionResult EditRateByWeighPopup(string btnId, string formId, ShippingByWeightModel model)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageShippingSettings))
-                return Content("Access denied");
+                return RedirectToAction("AccessDenied", "Security", new { pageUrl = this.Request.RawUrl });
 
             var sbw = _shippingByWeightService.GetById(model.Id);
             if (sbw == null)
