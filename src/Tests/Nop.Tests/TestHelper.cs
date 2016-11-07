@@ -937,19 +937,7 @@ namespace Nop.Tests
                 AppliedToSubCategories = true
             };
         }
-
-        public static DiscountForCaching GetDiscountForCaching()
-        {
-            return new DiscountForCaching
-            {
-                Id = 1,
-                Name = "Discount 1",
-                DiscountType = DiscountType.AssignedToShipping,
-                DiscountAmount = 3,
-                DiscountLimitation = DiscountLimitationType.Unlimited,
-            };
-        }
-
+        
         public static DiscountRequirement GetDiscountRequirement(Discount discount = null)
         {
             return new DiscountRequirement
@@ -1912,11 +1900,27 @@ namespace Nop.Tests
                 Vendor = vendor
             };
         }
-        
+
         #endregion
-        
+
         #endregion
-        
+
+        #region Nop.Services
+
+        #region Nop.Services.Discounts
+        public static DiscountForCaching GetDiscountForCaching()
+        {
+            return new DiscountForCaching
+            {
+                Id = 1,
+                Name = "Discount 1",
+                DiscountType = DiscountType.AssignedToShipping,
+                DiscountAmount = 3,
+                DiscountLimitation = DiscountLimitationType.Unlimited,
+            };
+        }
+        #endregion
+
         #region Nop.Services.Messages
 
         public static IList<Token> GeTokens(int count = 1, bool neverHtmlEncoded = false)
@@ -1929,6 +1933,8 @@ namespace Nop.Tests
 
             return tokens;
         }
+
+        #endregion
 
         #endregion
     }
