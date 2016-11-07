@@ -10974,11 +10974,11 @@
   <LocaleResource Name="Admin.Promotions.Discounts.Requirements.FailedToSave">
     <Value>Failed to save requirement</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Promotions.Discounts.Requirements.InteractionType">
-    <Value>Interaction type</Value>
+  <LocaleResource Name="Admin.Promotions.Discounts.Requirements.GroupName">
+    <Value>Group name</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Promotions.Discounts.Requirements.InteractionType.Hint">
-    <Value>Choose an interaction type with subsequent discount requirement.</Value>
+  <LocaleResource Name="Admin.Promotions.Discounts.Requirements.GroupName.Hint">
+    <Value>Specify name of the requirement group (e.g. "Permitted customer roles").</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Promotions.Discounts.Requirements.RequirementGroup">
     <Value>Add to group</Value>
@@ -10990,7 +10990,7 @@
     <Value>None</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Promotions.Discounts.Requirements.RequirementGroup.Title">
-    <Value>Requirement group: #</Value>
+    <Value>Requirement group</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Promotions.Discounts.Requirements.Remove">
     <Value>Remove requirement</Value>

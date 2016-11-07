@@ -82,8 +82,8 @@ namespace Nop.Admin.Models.Discounts
 
         public IList<SelectListItem> AvailableDiscountRequirementRules { get; set; }
 
-        [NopResourceDisplayName("Admin.Promotions.Discounts.Requirements.InteractionType")]
-        public int InteractionTypeId { get; set; }
+        [NopResourceDisplayName("Admin.Promotions.Discounts.Requirements.GroupName")]
+        public string GroupName { get; set; }
 
         [NopResourceDisplayName("Admin.Promotions.Discounts.Requirements.RequirementGroup")]
         public int RequirementGroupId { get; set; }

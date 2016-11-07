@@ -121,8 +121,8 @@ namespace Nop.Admin.Controllers
             foreach (var discountRule in discountRules)
                 model.AvailableDiscountRequirementRules.Add(new SelectListItem { Text = discountRule.PluginDescriptor.FriendlyName, Value = discountRule.PluginDescriptor.SystemName });
             model.AvailableRequirementGroups.Add(new SelectListItem { Value = "0", Text = _localizationService.GetResource("Admin.Promotions.Discounts.Requirements.RequirementGroup.None") });
-            foreach (var dr in discount.DiscountRequirements.Where(dr => string.IsNullOrEmpty(dr.DiscountRequirementRuleSystemName)))
-                model.AvailableRequirementGroups.Add(new SelectListItem { Value = dr.Id.ToString(), Text = string.Format("#{0}", dr.Id) });
+            foreach (var dr in discount.DiscountRequirements.Where(dr => dr.IsGroup))
+                model.AvailableRequirementGroups.Add(new SelectListItem { Value = dr.Id.ToString(), Text = dr.DiscountRequirementRuleSystemName });
             
         }
 
@@ -139,12 +139,13 @@ namespace Nop.Admin.Controllers
                     InteractionTypeId = dr.InteractionTypeId,
                     ParentId = dr.ParentId,
                     AvailableInteractionTypes = dr.InteractionType.ToSelectList(true),
-                    IsGroup = true,
+                    IsGroup = dr.IsGroup,
+                    RuleName = dr.DiscountRequirementRuleSystemName,
                     IsLastInGroup = lastRequirement == null || lastRequirement.Id == dr.Id,
                     ChildRequirements = GetReqirements(dr.ChildRequirements, discount)
                 };
 
-                if (string.IsNullOrEmpty(dr.DiscountRequirementRuleSystemName))
+                if (dr.IsGroup)
                     return requirement;
 
                 var drr = _discountService.LoadDiscountRequirementRuleBySystemName(dr.DiscountRequirementRuleSystemName);
@@ -153,7 +154,6 @@ namespace Nop.Admin.Controllers
 
                 requirement.RuleName = drr.PluginDescriptor.FriendlyName;
                 requirement.ConfigurationUrl = GetRequirementUrlInternal(drr, discount, dr.Id);
-                requirement.IsGroup = false;
 
                 return requirement;
             }).ToList();
@@ -450,8 +450,8 @@ namespace Nop.Admin.Controllers
 
             //available groups
             var availableRequirementGroups = new List<SelectListItem> { new SelectListItem { Value = "0", Text = _localizationService.GetResource("Admin.Promotions.Discounts.Requirements.RequirementGroup.None") } };
-            foreach (var dr in discount.DiscountRequirements.Where(dr => string.IsNullOrEmpty(dr.DiscountRequirementRuleSystemName)))
-                availableRequirementGroups.Add(new SelectListItem { Value = dr.Id.ToString(), Text = string.Format("#{0}", dr.Id) });
+            foreach (var dr in discount.DiscountRequirements.Where(dr => dr.IsGroup))
+                availableRequirementGroups.Add(new SelectListItem { Value = dr.Id.ToString(), Text = dr.DiscountRequirementRuleSystemName });
 
             //formula
             var currentFormula = GetFormula(requirements, _localizationService.GetResource("Admin.Promotions.Discounts.Requirements.CurrentFormula"));
@@ -459,8 +459,7 @@ namespace Nop.Admin.Controllers
             return Json(new { Requirements = requirements, AvailableGroups = availableRequirementGroups, Formula = currentFormula }, JsonRequestBehavior.AllowGet);
         }
 
-        [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult AddNewGroup(int discountId)
+        public ActionResult AddNewGroup(int discountId, string name)
         {
             if (!_permissionService.Authorize(StandardPermissionProvider.ManageDiscounts))
                 return AccessDeniedView();
@@ -469,10 +468,21 @@ namespace Nop.Admin.Controllers
             if (discount == null)
                 throw new ArgumentException("Discount could not be loaded");
 
-            //save new empty requirement
-            var discountRequirement = new DiscountRequirement();
+            //save new requirement group
+            var discountRequirement = new DiscountRequirement
+            {
+                IsGroup = true,
+                DiscountRequirementRuleSystemName = name
+            };
             discount.DiscountRequirements.Add(discountRequirement);
             _discountService.UpdateDiscount(discount);
+
+            //update group name
+            if (string.IsNullOrEmpty(name))
+            {
+                discountRequirement.DiscountRequirementRuleSystemName = string.Format("#{0}", discountRequirement.Id);
+                _discountService.UpdateDiscount(discount);
+            }
 
             return Json(new { Result = true, NewRequirementId = discountRequirement.Id }, JsonRequestBehavior.AllowGet);
         }

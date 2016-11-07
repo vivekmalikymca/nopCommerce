@@ -296,9 +296,8 @@
 
                     //adding requirement event
                     $("#discountRequirementContainer").bind('nopnewdiscountruleadded', function(event, newRequirementId) {
-                        var interactionTypeId = $("#@Html.FieldIdFor(model => model.InteractionTypeId)").val();
                         var parentId = $("#@Html.FieldIdFor(model => model.RequirementGroupId)").val();
-                        loadRequirements(newRequirementId, parentId, interactionTypeId);
+                        loadRequirements(newRequirementId, parentId);
                     });
                 });
 
@@ -307,14 +306,15 @@
                     //load URL
                     var ruleSystemName = $("#@Html.FieldIdFor(model => model.AddDiscountRequirement)").val();
                     if (ruleSystemName) {
-                        $("#pnlInteractionType").show();
                         $("#pnlGroup").show();
                         if (ruleSystemName == 'AddGroup') {
                             $("#pnlAddNewGroup").show();
+                            $("#pnlGroupName").show();
                             $('#addrequirementplaceholder').html('');
                         }
                         else {
                             $("#pnlAddNewGroup").hide();
+                            $("#pnlGroupName").hide();
                             $.ajax({
                                 cache: false,
                                 url: "@(Url.Action("GetDiscountRequirementConfigurationUrl", "Discount"))",
@@ -328,7 +328,7 @@
                             });
                         }
                     } else {
-                        $("#pnlInteractionType").hide();
+                        $("#pnlGroupName").hide();
                         $("#pnlGroup").hide();
                         $("#pnlAddNewGroup").hide();
                         $('#addrequirementplaceholder').html('');
@@ -404,10 +404,16 @@
 
                 //add new group
                 function addNewGroup() {
+                    var postData = {
+                        discountId: @Model.Id,
+                        name: $("#@Html.FieldIdFor(model => model.GroupName)").val(),
+                    };
+
+                    addAntiForgeryToken(postData);
                     $.ajax({
                         cache: false,
-                        type: "GET",
-                        data: { discountId: @Model.Id },
+                        type: "POST",
+                        data: postData,
                         url: "@(Url.Action("AddNewGroup", "Discount"))",
                         success: function (data) {
                             $("#discountRequirementContainer").trigger('nopnewdiscountruleadded', [data.NewRequirementId]);
@@ -437,7 +443,7 @@
                 <div class="panel panel-default" id="editrequirement{{= DiscountRequirementId }}">
                     <div class="panel-heading">
                         {{if IsGroup}}
-                            @T("Admin.Promotions.Discounts.Requirements.RequirementGroup.Title")<strong>{{= DiscountRequirementId }}</strong>
+                            @T("Admin.Promotions.Discounts.Requirements.RequirementGroup.Title"): <strong>{{= RuleName }}</strong>
                         {{else}}
                             @T("Admin.Promotions.Discounts.Requirements.DiscountRequirementType"): <strong>{{= RuleName }}</strong>
                         {{/if}}
@@ -450,7 +456,7 @@
                                     {{if !IsLastInGroup}}
                                         <div class="input-group-text">
                                             <select class="form-control" id="interactiontype{{= DiscountRequirementId }}" name="interactiontype{{= DiscountRequirementId }}"
-                                                onchange="changeInteraction({{= DiscountRequirementId }}, {{= ParentId}}, this.value)">
+                                                onchange="changeInteraction({{= DiscountRequirementId }}, ${ParentId ? ParentId : 'null'}, this.value)">
                                                 {{each AvailableInteractionTypes}}
                                                     <option value="${Value}" ${Selected == true ? 'selected' : ''}>${Text}</option>
                                                 {{/each}}
@@ -496,16 +502,16 @@
                             @Html.ValidationMessageFor(model => model.RequirementGroupId)
                         </div>
                     </div>
-                    <div class="form-group" id="pnlInteractionType" style="display:none">
+                    <div id="addrequirementplaceholder"></div>
+                    <div class="form-group" id="pnlGroupName" style="display:none">
                         <div class="col-md-3">
-                            @Html.NopLabelFor(model => model.InteractionTypeId)
+                            @Html.NopLabelFor(model => model.GroupName)
                         </div>
                         <div class="col-md-9">
-                            @Html.NopDropDownListFor(model => model.InteractionTypeId, ((RequirementInteractionType)Model.InteractionTypeId).ToSelectList())
-                            @Html.ValidationMessageFor(model => model.InteractionTypeId)
+                            @Html.NopEditorFor(model => model.GroupName)
+                            @Html.ValidationMessageFor(model => model.GroupName)
                         </div>
                     </div>
-                    <div id="addrequirementplaceholder"></div>
                     <div class="form-group" id="pnlAddNewGroup" style="display:none">
                         <div class="col-md-9 col-md-offset-3">
                             <input type="button" id="saverequirement" class="btn btn-primary" value="@T("Admin.Common.Save")" onclick="addNewGroup()"/>

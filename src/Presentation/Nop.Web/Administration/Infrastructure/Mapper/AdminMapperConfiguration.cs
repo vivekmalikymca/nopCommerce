@@ -623,7 +623,7 @@ namespace Nop.Admin.Infrastructure.Mapper
                     .ForMember(dest => dest.AddDiscountRequirement, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableDiscountRequirementRules, mo => mo.Ignore())
                     .ForMember(dest => dest.AvailableRequirementGroups, mo => mo.Ignore())
-                    .ForMember(dest => dest.InteractionTypeId, mo => mo.Ignore())
+                    .ForMember(dest => dest.GroupName, mo => mo.Ignore())
                     .ForMember(dest => dest.RequirementGroupId, mo => mo.Ignore())
                     .ForMember(dest => dest.CustomProperties, mo => mo.Ignore());
                 cfg.CreateMap<DiscountModel, Discount>()

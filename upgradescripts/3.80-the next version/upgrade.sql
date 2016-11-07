@@ -527,11 +527,11 @@ set @resources='
   <LocaleResource Name="Admin.Promotions.Discounts.Requirements.DiscountRequirementType.AddGroup">
     <Value>Add requirement group</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Promotions.Discounts.Requirements.InteractionType">
-    <Value>Interaction type</Value>
+  <LocaleResource Name="Admin.Promotions.Discounts.Requirements.GroupName">
+    <Value>Group name</Value>
   </LocaleResource>
-  <LocaleResource Name="Admin.Promotions.Discounts.Requirements.InteractionType.Hint">
-    <Value>Choose an interaction type with subsequent discount requirement.</Value>
+  <LocaleResource Name="Admin.Promotions.Discounts.Requirements.GroupName.Hint">
+    <Value>Specify name of the requirement group (e.g. "Permitted customer roles").</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Promotions.Discounts.Requirements.RequirementGroup">
     <Value>Add to group</Value>
@@ -543,7 +543,7 @@ set @resources='
     <Value>None</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Promotions.Discounts.Requirements.RequirementGroup.Title">
-    <Value>Requirement group: #</Value>
+    <Value>Requirement group</Value>
   </LocaleResource>
   <LocaleResource Name="Admin.Promotions.Discounts.Requirements.RemoveGroup">
     <Value>Remove requirement group</Value>
@@ -1294,4 +1294,20 @@ BEGIN
 	ALTER TABLE [DiscountRequirement]
 	ADD [ParentId] int NULL
 END
+GO
+
+--new column
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id=object_id('[DiscountRequirement]') and NAME='IsGroup')
+BEGIN
+	ALTER TABLE [DiscountRequirement]
+	ADD [IsGroup] bit NULL
+END
+GO
+
+UPDATE [DiscountRequirement]
+SET [IsGroup] = 0
+WHERE [IsGroup] IS NULL
+GO
+
+ALTER TABLE [DiscountRequirement] ALTER COLUMN [IsGroup] bit NOT NULL
 GO

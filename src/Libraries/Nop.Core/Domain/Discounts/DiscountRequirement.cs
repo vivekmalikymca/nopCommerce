@@ -30,6 +30,11 @@ namespace Nop.Core.Domain.Discounts
         public int InteractionTypeId { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this requirement has any child requirements
+        /// </summary>
+        public bool IsGroup { get; set; }
+
+        /// <summary>
         /// Gets or sets an interaction type
         /// </summary>
         public RequirementInteractionType InteractionType

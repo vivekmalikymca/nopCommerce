@@ -90,6 +90,7 @@ namespace Nop.Services.Discounts
             }
 
             public int Id { get; set; }
+            public bool IsGroup { get; set; }
             public RequirementInteractionType InteractionType { get; set; }
             public string SystemName { get; set; }
             public IList<DiscountRequirementForCaching> ChildRequirements { get; set; }
@@ -109,6 +110,7 @@ namespace Nop.Services.Discounts
             return requirements.Select(dr => new DiscountRequirementForCaching
             {
                 Id = dr.Id,
+                IsGroup = dr.IsGroup,
                 SystemName = dr.DiscountRequirementRuleSystemName,
                 InteractionType = dr.InteractionType,
                 ChildRequirements = GetReqirementsForCaching(dr.ChildRequirements)
@@ -128,7 +130,7 @@ namespace Nop.Services.Discounts
 
             foreach (var requirement in requirements)
             {
-                if (!requirement.ChildRequirements.Any())
+                if (!requirement.IsGroup)
                 {
                     var requirementRulePlugin = LoadDiscountRequirementRuleBySystemName(requirement.SystemName);
                     if (requirementRulePlugin == null)
