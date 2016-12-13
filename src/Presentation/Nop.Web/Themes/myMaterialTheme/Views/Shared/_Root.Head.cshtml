@@ -12,9 +12,7 @@
     Html.AppendScriptParts("~/Scripts/jquery.validate.min.js");
     Html.AppendScriptParts("~/Scripts/jquery-1.10.2.min.js");
 
-    <!--me:materialize-->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-    <script src="//cdn.transifex.com/live.js"></script>
+    
 
     //X-UA-Compatible tag
     var commonSettings = EngineContext.Current.Resolve<CommonSettings>();
@@ -38,6 +36,7 @@
     <meta name="keywords" content="@(Html.NopMetaKeywords())" />
     <meta name="generator" content="nopCommerce" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
     @Html.NopHeadCustom()
     @*This is used so that themes can inject content into the header*@
     @Html.Partial("Head")
@@ -59,5 +58,8 @@
     @RenderBody()
     @Html.NopCssFiles(this.Url, ResourceLocation.Foot)
     @Html.NopScripts(this.Url, ResourceLocation.Foot)
+    <!--me:materialize-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+    <script src="//cdn.transifex.com/live.js"></script>
 </body>
 </html>
