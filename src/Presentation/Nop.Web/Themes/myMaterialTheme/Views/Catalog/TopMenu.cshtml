@@ -37,12 +37,49 @@
     </li>
 }
 
-<span>test menu</span>
-
+<a href="#" data-activates="slide-out" class="button-collapse">
+    <i class="material-icons">menu</i>
+</a>
 <nav>
    <div class="nav-wrapper">
-
-    <ul class="top-menu">
+    <ul id="slide-out" class="side-nav">
+           @Html.Widget("header_menu_before")
+           @{
+               var rootCategoriesMobile = Model.Categories.Where(x => x.IncludeInTopMenu).ToList();
+           }
+           @foreach (var category in rootCategoriesMobile)
+           {
+               @RenderCategoryLine(category, 0, false)
+           }
+           @foreach (var topic in Model.Topics)
+           {
+               <li><a href="@Url.RouteUrl("Topic", new { SeName = topic.SeName })">@topic.Name</a></li>
+           }
+           @if (rootCategoriesMobile.Count == 0 && Model.Topics.Count == 0)
+           {
+               //no categories or topis to display? in this case let's diplay some default menu items (should we?)
+               <li><a href="@Url.RouteUrl("HomePage")">@T("HomePage")</a></li>
+               if (Model.NewProductsEnabled)
+               {
+                   <li>
+                       <a href="@Url.RouteUrl("NewProducts")">@T("Products.NewProducts")</a>
+                   </li>
+               }
+               <li><a href="@Url.RouteUrl("ProductSearch")">@T("Search")</a></li>
+               <li><a href="@Url.RouteUrl("CustomerInfo")">@T("Account.MyAccount")</a></li>
+               if (Model.BlogEnabled)
+               {
+                   <li><a href="@Url.RouteUrl("Blog")">@T("Blog")</a></li>
+               }
+               if (Model.ForumEnabled)
+               {
+                   <li><a href="@Url.RouteUrl("Boards")">@T("Forum.Forums")</a></li>
+               }
+               <li><a href="@Url.RouteUrl("ContactUs")">@T("ContactUs")</a></li>
+           }
+           @Html.Widget("header_menu_after")
+       </ul>
+    <ul class="top-menu" >
         @Html.Widget("header_menu_before")
         @{
         var rootCategories = Model.Categories.Where(x => x.IncludeInTopMenu).ToList();
@@ -79,6 +116,9 @@
     }
         @Html.Widget("header_menu_after")
     </ul>
+
+      
+
    </div>
 </nav>
 
@@ -124,6 +164,8 @@
     
     <script type="text/javascript">
         $(document).ready(function () {
+            $('.button-collapse').sideNav();
+            $('#sidenav-overlay').remove();
             $('.menu-toggle').click(function () {
                 $(this).siblings('.top-menu.mobile').slideToggle('slow');
             });
@@ -132,6 +174,7 @@
             });
         });
     </script>
+
 }
 
 

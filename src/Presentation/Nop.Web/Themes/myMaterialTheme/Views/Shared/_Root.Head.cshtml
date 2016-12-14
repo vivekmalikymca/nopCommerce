@@ -52,14 +52,22 @@
     {
         @StackExchange.Profiling.MiniProfiler.RenderIncludes()
     }
+    <!--me:materialize-->
+    @*<script src="//materializecss.com/css/ghpages-materialize.css"></script>*@
+    <!-- me:materialize css -->
+    <link rel="stylesheet" href="//materializecss.com/css/ghpages-materialize.css">
+    <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="//cdn.transifex.com/live.js"></script>
+    
+
     <!--Powered by nopCommerce - http://www.nopCommerce.com-->
 </head>
 <body>
     @RenderBody()
     @Html.NopCssFiles(this.Url, ResourceLocation.Foot)
     @Html.NopScripts(this.Url, ResourceLocation.Foot)
-    <!--me:materialize-->
     <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-    <script src="//cdn.transifex.com/live.js"></script>
+    
+    
 </body>
 </html>
