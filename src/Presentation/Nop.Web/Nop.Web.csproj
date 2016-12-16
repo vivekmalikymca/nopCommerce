@@ -1151,6 +1151,34 @@
     <Content Include="Themes\fresh\theme.config" />
     <Content Include="Themes\fresh\Views\Shared\Head.cshtml" />
     <Content Include="Themes\fresh\Views\Web.config" />
+    <Content Include="Themes\fresh\Views\Shared\Header.cshtml" />
+    <Content Include="Themes\fresh\Views\Shared\_Root.Head.cshtml" />
+    <Content Include="Themes\fresh\Views\Shared\_Root.cshtml" />
+    <Content Include="Themes\fresh\Views\Shared\_ColumnsTwo.cshtml" />
+    <Content Include="Themes\fresh\Views\Shared\_ColumnsOne.cshtml" />
+    <Content Include="Themes\fresh\Content\fonts\roboto\Roboto-Bold.eot" />
+    <Content Include="Themes\fresh\Content\fonts\roboto\Roboto-Bold.ttf" />
+    <Content Include="Themes\fresh\Content\fonts\roboto\Roboto-Bold.woff" />
+    <Content Include="Themes\fresh\Content\fonts\roboto\Roboto-Bold.woff2" />
+    <Content Include="Themes\fresh\Content\fonts\roboto\Roboto-Light.eot" />
+    <Content Include="Themes\fresh\Content\fonts\roboto\Roboto-Light.ttf" />
+    <Content Include="Themes\fresh\Content\fonts\roboto\Roboto-Light.woff" />
+    <Content Include="Themes\fresh\Content\fonts\roboto\Roboto-Light.woff2" />
+    <Content Include="Themes\fresh\Content\fonts\roboto\Roboto-Medium.eot" />
+    <Content Include="Themes\fresh\Content\fonts\roboto\Roboto-Medium.ttf" />
+    <Content Include="Themes\fresh\Content\fonts\roboto\Roboto-Medium.woff" />
+    <Content Include="Themes\fresh\Content\fonts\roboto\Roboto-Medium.woff2" />
+    <Content Include="Themes\fresh\Content\fonts\roboto\Roboto-Regular.eot" />
+    <Content Include="Themes\fresh\Content\fonts\roboto\Roboto-Regular.ttf" />
+    <Content Include="Themes\fresh\Content\fonts\roboto\Roboto-Regular.woff" />
+    <Content Include="Themes\fresh\Content\fonts\roboto\Roboto-Regular.woff2" />
+    <Content Include="Themes\fresh\Content\fonts\roboto\Roboto-Thin.eot" />
+    <Content Include="Themes\fresh\Content\fonts\roboto\Roboto-Thin.ttf" />
+    <Content Include="Themes\fresh\Content\fonts\roboto\Roboto-Thin.woff" />
+    <Content Include="Themes\fresh\Content\fonts\roboto\Roboto-Thin.woff2" />
+    <Content Include="Themes\fresh\Views\common\HeaderLinks.cshtml" />
+    <Content Include="Themes\fresh\Views\Shared\Headerm.cshtml" />
+    <Content Include="Themes\fresh\Views\common\AdminHeaderLinks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />
