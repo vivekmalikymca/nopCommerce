@@ -3,6 +3,7 @@
 <div class="header-links">
     <ul>
         @Html.Widget("header_links_before")
+       
         @if (Model.IsAuthenticated)
         {
             <li><a href="@Url.RouteUrl("CustomerInfo")" class="ico-account">@Model.CustomerEmailUsername</a></li>
@@ -33,7 +34,7 @@
         }
         @if (Model.ShoppingCartEnabled)
         {
-            <li id="topcartlink">
+            <li id="topcartlink" class="" ng-init="shopping_cart=@T("ShoppingCart.HeaderQuantity", Model.ShoppingCartItems)">
                 <a href="@Url.RouteUrl("ShoppingCart")" class="ico-cart">
                     <span class="cart-label">@T("ShoppingCart")</span>
                     <span class="cart-qty">@T("ShoppingCart.HeaderQuantity", Model.ShoppingCartItems)</span>
@@ -51,6 +52,7 @@
             });
         </script>
     }
+
     @if (Model.ShoppingCartEnabled)
     {
         <script type="text/javascript">
