@@ -3,7 +3,7 @@
         background-color: #FFFFFF;
         margin: 0;
         display: none;
-        min-width: 150px; /* Changed this to accomodate content width */
+        min-width: 200px; /* Changed this to accomodate content width */
         max-width: auto !important;
         max-height: auto;
         margin-left: -1px; /* Add this to keep dropdown in line with edge of navbar */
@@ -14,21 +14,24 @@
         z-index: 1;
         will-change: width, height;
     }
-    .fixed-scrollheader {
-      position:fixed;
-      top:0; left:0;
-      width: 100%; 
-      z-index: 997;
 
+    .fixed-scrollheader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 997;
     }
+
     #search {
-    display: none;
-    margin-bottom: 0px;
-    border-top: 1px solid #111;
-    border-bottom: 1px solid #111;
+        display: none;
+        margin-bottom: 0px;
+        border-top: 1px solid #111;
+        border-bottom: 1px solid #111;
     }
 </style>
-
+<div class="light-blue" style="padding-top: 2px;">
+</div>
 <div class="fixscrollheader">
     <nav>
         <div class="nav-wrapper light-blue">
@@ -39,21 +42,21 @@
                     <div class="brand-logo left hide-on-small-and-down">
                         @Html.Action("Logo", "Common")
                     </div>
-                    
+
                 </div>
 
 
                 <div class="col s10">
                     <ul class="right">
                         <li>
-                           
+
                             <a id="toggle-search" href="#!">
                                 <i class="material-icons">search</i>
                             </a>
                         </li>
                         @*<li><a href="#!"><i class="material-icons">view_module</i></a></li>
-            <li><a href="#!"><i class="material-icons">refresh</i></a></li>*@
-                        <li><a href="@Url.RouteUrl("ShoppingCart")" ng-cloak><i class="material-icons left">shopping_cart</i>({{shopping_cart}})</a></li>
+                            <li><a href="#!"><i class="material-icons">refresh</i></a></li>*@
+                        <li><a href="@Url.RouteUrl("ShoppingCart")" ng-cloak><i class="material-icons left">shopping_cart</i>{{shopping_cart}}</a></li>
                         <li>
                             <a class='dropdown-button' href='#!' data-beloworigin="true" data-activates='drop_cart'><i class="material-icons">more_vert</i></a>
                         </li>
@@ -61,8 +64,8 @@
                 </div>
 
             </div>
-               
-</div>
+
+        </div>
     </nav>
 </div>
 <ul class="side-nav" id="mobile-demo">
@@ -71,23 +74,25 @@
     <li><a href="#!">Javascript</a></li>
     <li><a href="#!">Mobile</a></li>
 </ul>
-<div id="search" class="fixscrollheader">
-    <nav>
-        <div class="nav-wrapper white">
-            <form>
-                <div class="input-field" id="search-navbar">
-                    @*@Html.Action("SearchBox", "Catalog")*@
-                    <input type="search" class="search-box-text grey-text" id="small-searchterms1" ng-model="searchterms.value" autocomplete="off" name="q" placeholder="@T("Search.SearchBox.Tooltip")" />
-                    <label for="small-searchterms1"><i class="material-icons blue-grey-text">search</i></label>
-                    <i id="search-box-close" class="material-icons blue-grey-text">close</i>
-                </div>
-            </form>
-        </div>
-    </nav>
-</div>
 
-@*<nav>
-        <div class="nav-wrapper light-blue">
+
+    <div id="search" class="fixscrollheader">
+        <nav>
+            <div class="nav-wrapper white">
+                <form>
+                    <div class="input-field" id="search-navbar">
+                        @*@Html.Action("SearchBox", "Catalog")*@
+                        <input type="search" class="search-box-text grey-text" id="small-searchterms1" ng-model="searchterms.value" autocomplete="off" name="q" placeholder="@T("Search.SearchBox.Tooltip")" />
+                        <label for="small-searchterms1"><i class="material-icons blue-grey-text">search</i></label>
+                        <i id="search-box-close" class="material-icons blue-grey-text">close</i>
+                    </div>
+                </form>
+            </div>
+        </nav>
+    </div>
+
+    @*<nav>
+        <div class="nav-wrapper light-blue">        
             <form>
                 <div class="input-field">
                     <input id="search" type="search" required>
@@ -98,100 +103,105 @@
         </div>
     </nav>*@
 
+@*<div class="row" id="drop_cart">
+    @Html.Action("HeaderLinks", "Common")
+</div>*@
+<ul id='drop_cart' class='dropdown-content' style="z-index: 6;">
+   @Html.Action("HeaderLinks", "Common")
+</ul>
 
 
+    @*<div class="header row hide">
+            @Html.Widget("headerm")
+            <div class="header-upper col s12">
+                <div class="header-selectors-wrapper">
+                    @Html.Action("TaxTypeSelector", "Common")
+                    @Html.Action("CurrencySelector", "Common")
+                    @Html.Action("LanguageSelector", "Common")
+                    @Html.Widget("header_selectors")
+                </div>
+                <div class="header-links-wrapper">
+                    @Html.Action("HeaderLinks", "Common")
+                    @Html.Action("FlyoutShoppingCart", "ShoppingCart")
+                </div>
+            </div>
+            <div class="header-lower col s12">
+                <div class="header-logo">
+                    @Html.Action("Logo", "Common")
+                </div>
+                <div class="search-box store-search-box">
+                    @Html.Action("SearchBox", "Catalog")
+                </div>
+            </div>
+        </div>*@
 
-<div class="header row hide">
-    @Html.Widget("headerm")
-    <div class="header-upper col s12">
-        <div class="header-selectors-wrapper">
-            @Html.Action("TaxTypeSelector", "Common")
-            @Html.Action("CurrencySelector", "Common")
-            @Html.Action("LanguageSelector", "Common")
-            @Html.Widget("header_selectors")
-        </div>
-        <div class="header-links-wrapper">
-            @Html.Action("HeaderLinks", "Common")
-            @Html.Action("FlyoutShoppingCart", "ShoppingCart")
-        </div>
-    </div>
-    <div class="header-lower col s12">
-        <div class="header-logo">
-            @Html.Action("Logo", "Common")
-        </div>
-        <div class="search-box store-search-box">
-            @Html.Action("SearchBox", "Catalog")
-        </div>
-    </div>
-</div>
+    <script>
+        $(document).ready(function () {
+            $('.button-collapse').sideNav({
+                menuWidth: 240, // Default is 240
+                edge: 'left', // Choose the horizontal origin
+                closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+                draggable: true // Choose whether you can drag to open on touch screens
+            }
+           );
+            $("#toggleheader").click(function () {
+                $(".header").toggle("slow");
+            });
+            $('.dropdown-button').dropdown({
+                inDuration: 300,
+                outDuration: 225,
+               // hover: true, // Activate on hover
+                belowOrigin: true, // Displays dropdown below the button
+                alignment: 'right' // Displays dropdown with edge aligned to the left of button
 
-<script>
-    $(document).ready(function () {
-        $('.button-collapse').sideNav({
-            menuWidth: 240, // Default is 240
-            edge: 'left', // Choose the horizontal origin
-            closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-            draggable: true // Choose whether you can drag to open on touch screens
-        }
-	   );
-        $("#toggleheader").click(function () {
-            $(".header").toggle("slow");
-        });
-        $('.dropdown-button').dropdown({
-            inDuration: 300,
-            outDuration: 225,
-            hover: true, // Activate on hover
-            belowOrigin: true, // Displays dropdown below the button
-            alignment: 'right' // Displays dropdown with edge aligned to the left of button
+            });
+            //navvar pop search
+            $('a#toggle-search').click(function () {
+                var search = $('div#search');
 
-        });
-        //navvar pop search
-        $('a#toggle-search').click(function () {
-            var search = $('div#search');
+                search.is(":visible") ? search.slideUp() : search.slideDown(function () {
+                    search.find('input').focus();
+                    search.addClass('navbar-fixed');
 
-            search.is(":visible") ? search.slideUp() : search.slideDown(function () {
-                search.find('input').focus();
-                search.addClass('navbar-fixed');
+                    //search.find('.search-box-button').hide();
+                });
 
-                //search.find('.search-box-button').hide();
+                return false;
+            });
+            $('div#search').keypress(function (e) {
+                var key = e.which;
+                if (key == 13)  // the enter key code
+                {
+                    $('.search-box-button').click();
+                    return false;
+                }
+            });
+            $('#search-box-close').click(function () {
+                $('a#toggle-search').click();
             });
 
-            return false;
-        });
-        $('div#search').keypress(function (e) {
-            var key = e.which;
-            if (key == 13)  // the enter key code
-            {
-                $('.search-box-button').click();
-                return false;
-            }
-        });
-        $('#search-box-close').click(function () {
-            $('a#toggle-search').click();
-        });
+            var lastScrollTop = 0;
+            var stickyOffset = $('.fixscrollheader').offset().top;
+            $(window).scroll(function (event) {
+                var st = $(this).scrollTop();
+                var search = $('div#search');
+                if (st > lastScrollTop) {
+                    // downscroll code
+                    //search.is(":visible") ? search.slideUp() : function () { }
+                } else {
 
-        var lastScrollTop = 0;
-        var stickyOffset = $('.fixscrollheader').offset().top;
-        $(window).scroll(function (event) {
-            var st = $(this).scrollTop();
-            var search = $('div#search');
-            if (st > lastScrollTop) {
-                // downscroll code
-                //search.is(":visible") ? search.slideUp() : function () { }
-            } else {
-                
-                // upscroll code
-            }
-            lastScrollTop = st;
+                    // upscroll code
+                }
+                lastScrollTop = st;
 
-    
-            //fixed scroll header
-            var sticky = $('.fixscrollheader'),
-               scroll = $(window).scrollTop();
 
-            if (scroll >= stickyOffset) sticky.addClass('fixed-scrollheader');
-            else sticky.removeClass('fixed-scrollheader');
+                //fixed scroll header
+                var sticky = $('.fixscrollheader'),
+                   scroll = $(window).scrollTop();
+
+                if (scroll >= stickyOffset) sticky.addClass('fixed-scrollheader');
+                else sticky.removeClass('fixed-scrollheader');
+            });
+
         });
-
-    });
-</script>
+    </script>
