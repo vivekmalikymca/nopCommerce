@@ -14,6 +14,13 @@
         z-index: 1;
         will-change: width, height;
     }
+    .fixed-scrollheader {
+      position:fixed;
+      top:0; left:0;
+      width: 100%; 
+      z-index: 997;
+
+    }
     #search {
     display: none;
     margin-bottom: 0px;
@@ -22,9 +29,8 @@
     }
 </style>
 
-<div class="navbar-fixed">
+<div class="fixscrollheader">
     <nav>
-       
         <div class="nav-wrapper light-blue">
 
             <div class="row">
@@ -64,25 +70,20 @@
 </div>
     </nav>
 </div>
-<div id="search" class="">
+<div id="search" class="fixscrollheader">
     <nav>
-        <div class="nav-wrapper grey">
+        <div class="nav-wrapper white">
             <form>
                 <div class="input-field" id="search-navbar">
                     @*@Html.Action("SearchBox", "Catalog")*@
-                    <input type="search" class="search-box-text" id="small-searchterms1" ng-model="searchterms.value" autocomplete="off" name="q" />
-                    <label for="small-searchterms1"><i class="material-icons">search</i></label>
-                    <i class="material-icons">close</i>
+                    <input type="search" class="search-box-text grey-text" id="small-searchterms1" ng-model="searchterms.value" autocomplete="off" name="q" placeholder="@T("Search.SearchBox.Tooltip")" />
+                    <label for="small-searchterms1"><i class="material-icons blue-grey-text">search</i></label>
+                    <i id="search-box-close" class="material-icons blue-grey-text">close</i>
                 </div>
             </form>
         </div>
     </nav>
 </div>
-
-
-@*@Html.Action("AdminHeaderLinks", "Common")*@
-
-
 
 @*<nav>
         <div class="nav-wrapper light-blue">
@@ -164,20 +165,32 @@
                 return false;
             }
         });
+        $('#search-box-close').click(function () {
+            $('a#toggle-search').click();
+        });
+
         var lastScrollTop = 0;
+        var stickyOffset = $('.fixscrollheader').offset().top;
         $(window).scroll(function (event) {
             var st = $(this).scrollTop();
             var search = $('div#search');
             if (st > lastScrollTop) {
                 // downscroll code
-                search.is(":visible") ? search.slideUp() : function () { }
+                //search.is(":visible") ? search.slideUp() : function () { }
             } else {
                 
                 // upscroll code
             }
             lastScrollTop = st;
+
+    
+            //fixed scroll header
+            var sticky = $('.fixscrollheader'),
+               scroll = $(window).scrollTop();
+
+            if (scroll >= stickyOffset) sticky.addClass('fixed-scrollheader');
+            else sticky.removeClass('fixed-scrollheader');
         });
-       
 
     });
 </script>
