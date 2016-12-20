@@ -26,7 +26,7 @@
                             delay: 500,
                             minLength: @(Model.SearchTermMinimumLength.ToString()),
                             source: '@(Url.RouteUrl("ProductSearchAutoComplete"))',
-                            appendTo: '.search-box',
+                        appendTo: '.search-box, #search-navbar',
                             select: function(event, ui) {
                                 $("#small-searchterms").val(ui.item.label);
                                 setLocation(ui.item.producturl);
