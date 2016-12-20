@@ -1180,6 +1180,7 @@
     <Content Include="Themes\fresh\Views\Shared\Headerm.cshtml" />
     <Content Include="Themes\fresh\Views\common\AdminHeaderLinks.cshtml" />
     <Content Include="Themes\fresh\Views\Catalog\SearchBox.cshtml" />
+    <Content Include="Themes\fresh\Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />

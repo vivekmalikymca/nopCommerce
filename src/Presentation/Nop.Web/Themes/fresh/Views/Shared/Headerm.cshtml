@@ -110,6 +110,15 @@
    @Html.Action("HeaderLinks", "Common")
 </ul>
 
+<div class="slider" ng-controller="slidesController">
+    <ul class="slides">
+        <li  ng-repeat="img in imgs" on-finish-render="ngRepeatFinished">
+            <img src="{{img.currentSrc}}" />
+            
+        </li>
+    </ul>
+</div>
+
 
     @*<div class="header row hide">
             @Html.Widget("headerm")
@@ -136,14 +145,16 @@
         </div>*@
 
     <script>
+        var slides;
         $(document).ready(function () {
+            slides = $('#nivo-slider>a');
             $('.button-collapse').sideNav({
                 menuWidth: 240, // Default is 240
                 edge: 'left', // Choose the horizontal origin
                 closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
                 draggable: true // Choose whether you can drag to open on touch screens
-            }
-           );
+            });
+           
             $("#toggleheader").click(function () {
                 $(".header").toggle("slow");
             });
@@ -204,4 +215,32 @@
             });
 
         });
+
+   angular.module('iapp',[])
+  .controller('slidesController', function ($scope) {
+      $scope.slides = slides;
+      $scope.imgs = slides.find('img');
+      $scope.$on('$viewContentLoaded', function () {
+          //call it here
+          $('.slider').slider({ full_width: true });
+      });
+      $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
+          //you also get the actual event object
+          //do stuff, execute functions -- whatever...
+          $('.slider').slider({ full_width: true });
+      });
+  })
+   .directive('onFinishRender', function ($timeout) {
+       return {
+           restrict: 'A',
+           link: function (scope, element, attr) {
+               if (scope.$last === true) {
+                   $timeout(function () {
+                       scope.$emit(attr.onFinishRender);
+                   });
+               }
+           }
+       }
+   });
+  
     </script>
