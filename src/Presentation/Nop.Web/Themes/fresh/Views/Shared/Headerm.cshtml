@@ -51,14 +51,16 @@
                         <li>
 
                             <a id="toggle-search" href="#!">
-                                <i class="material-icons">search</i>
+                                <i class="material-icons show-on-small">search</i>
                             </a>
                         </li>
                         @*<li><a href="#!"><i class="material-icons">view_module</i></a></li>
-                            <li><a href="#!"><i class="material-icons">refresh</i></a></li>*@
-                        <li><a href="@Url.RouteUrl("ShoppingCart")" ng-cloak><i class="material-icons left">shopping_cart</i>{{shopping_cart}}</a></li>
+            <li><a href="#!"><i class="material-icons">refresh</i></a></li>*@
+                        <li><a href="@Url.RouteUrl("ShoppingCart")" ng-cloak><i class="material-icons show-on-small left">shopping_cart</i>{{shopping_cart}}</a></li>
                         <li>
-                            <a class='dropdown-button' href='#!' data-beloworigin="true" data-activates='drop_cart'><i class="material-icons">more_vert</i></a>
+                            <a class='dropdown-button' href='#!' data-beloworigin="true" data-activates='drop_cart'>
+                                <i class="material-icons">more_vert</i>
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -110,17 +112,20 @@
    @Html.Action("HeaderLinks", "Common")
 </ul>
 
-<div class="slider" ng-controller="slidesController">
-    <ul class="slides">
-        <li  ng-repeat="img in imgs" on-finish-render="ngRepeatFinished">
-            <img src="{{img.currentSrc}}" />
-            
-        </li>
-    </ul>
-</div>
+
+@*<div class="slider" ng-controller="slidesController">
+        <ul class="slides">
+            <li>
+                <img src="http://lorempixel.com/580/250/nature/1">  random image 
+            </li>
+            <li  ng-repeat="img in imgs" on-finish-render="ngRepeatFinished">
+                <img src="{{img.currentSrc}}" />
+            </li>
+        </ul>
+</div>*@
 
 
-    @*<div class="header row hide">
+    <div class="header row hide">
             @Html.Widget("headerm")
             <div class="header-upper col s12">
                 <div class="header-selectors-wrapper">
@@ -142,7 +147,7 @@
                     @Html.Action("SearchBox", "Catalog")
                 </div>
             </div>
-        </div>*@
+        </div>
 
     <script>
         var slides;
@@ -154,7 +159,7 @@
                 closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
                 draggable: true // Choose whether you can drag to open on touch screens
             });
-           
+            $('.slider').slider({ full_width: true });
             $("#toggleheader").click(function () {
                 $(".header").toggle("slow");
             });
@@ -217,30 +222,30 @@
         });
 
    angular.module('iapp',[])
-  .controller('slidesController', function ($scope) {
-      $scope.slides = slides;
-      $scope.imgs = slides.find('img');
-      $scope.$on('$viewContentLoaded', function () {
-          //call it here
-          $('.slider').slider({ full_width: true });
-      });
-      $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
-          //you also get the actual event object
-          //do stuff, execute functions -- whatever...
-          $('.slider').slider({ full_width: true });
-      });
-  })
-   .directive('onFinishRender', function ($timeout) {
-       return {
-           restrict: 'A',
-           link: function (scope, element, attr) {
-               if (scope.$last === true) {
-                   $timeout(function () {
-                       scope.$emit(attr.onFinishRender);
-                   });
-               }
-           }
-       }
-   });
+  //.controller('slidesController', function ($scope) {
+  //    $scope.slides = slides;
+  //    $scope.imgs = slides.find('img');
+  //    $scope.$on('$viewContentLoaded', function () {
+  //        //call it here
+  //        $('.slider').slider({ full_width: true });
+  //    });
+  //    //$scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
+  //    //    //you also get the actual event object
+  //    //    //do stuff, execute functions -- whatever...
+  //    //    $('.slider').slider({ full_width: true });
+  //    //});
+  //})
+   //.directive('onFinishRender', function ($timeout) {
+   //    return {
+   //        restrict: 'A',
+   //        link: function (scope, element, attr) {
+   //            if (scope.$last === true) {
+   //                $timeout(function () {
+   //                    scope.$emit(attr.onFinishRender);
+   //                });
+   //            }
+   //        }
+   //    }
+   //});
   
     </script>

@@ -13,10 +13,12 @@
     <script type="text/javascript">
         AjaxCart.init(false, '.header-links .cart-qty', '.header-links .wishlist-qty', '#flyout-cart');
     </script>
-    <div class="header-menu hide">
+    <div class="header-menu hide-on-med-and-down">
         @Html.Action("TopMenu", "Catalog")
     </div>
-    <div class="row"></div>
+    <div class="row hide-on-large-only">
+        <br />
+    </div>
     <div class="master-wrapper-content">
         @Html.Widget("content_before")
 

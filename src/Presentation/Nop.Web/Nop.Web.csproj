@@ -1181,6 +1181,7 @@
     <Content Include="Themes\fresh\Views\common\AdminHeaderLinks.cshtml" />
     <Content Include="Themes\fresh\Views\Catalog\SearchBox.cshtml" />
     <Content Include="Themes\fresh\Views\Home\Index.cshtml" />
+    <Content Include="Themes\fresh\Views\Catalog\HomepageCategories.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />
