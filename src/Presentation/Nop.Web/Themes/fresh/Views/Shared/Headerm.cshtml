@@ -64,13 +64,21 @@
 </div>
     </nav>
 </div>
-<div id="search" class="row">
-
-    <div class="col s12 search-box store-search-box ">
-        @Html.Action("SearchBox", "Catalog")
-    </div>
-    
+<div id="search" class="">
+    <nav>
+        <div class="nav-wrapper grey">
+            <form>
+                <div class="input-field">
+                    @*@Html.Action("SearchBox", "Catalog")*@
+                    <input type="search" class="search-box-text" id="small-searchterms1" autocomplete="off" name="q" />
+                    <label for="small-searchterms"><i class="material-icons">search</i></label>
+                    <i class="material-icons">close</i>
+                </div>
+            </form>
+        </div>
+    </nav>
 </div>
+
 
 @*@Html.Action("AdminHeaderLinks", "Common")*@
 
@@ -91,7 +99,7 @@
 
 
 
-<div class="header row hide">
+<div class="header row">
     @Html.Widget("headerm")
     <div class="header-upper col s12">
         <div class="header-selectors-wrapper">
@@ -141,11 +149,27 @@
 
             search.is(":visible") ? search.slideUp() : search.slideDown(function () {
                 search.find('input').focus();
+                search.addClass('navbar-fixed');
+
                 //search.find('.search-box-button').hide();
             });
 
             return false;
         });
+        var lastScrollTop = 0;
+        $(window).scroll(function (event) {
+            var st = $(this).scrollTop();
+            var search = $('div#search');
+            if (st > lastScrollTop) {
+                // downscroll code
+                search.is(":visible") ? search.slideUp() : function () { }
+            } else {
+                
+                // upscroll code
+            }
+            lastScrollTop = st;
+        });
+       
 
     });
 </script>
