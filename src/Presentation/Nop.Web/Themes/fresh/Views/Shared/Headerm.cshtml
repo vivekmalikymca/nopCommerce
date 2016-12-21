@@ -70,8 +70,8 @@
             <form>
                 <div class="input-field">
                     @*@Html.Action("SearchBox", "Catalog")*@
-                    <input type="search" class="search-box-text" id="small-searchterms1" autocomplete="off" name="q" />
-                    <label for="small-searchterms"><i class="material-icons">search</i></label>
+                    <input type="search" class="search-box-text" id="small-searchterms1" ng-model="searchterms.value" autocomplete="off" name="q" />
+                    <label for="small-searchterms1"><i class="material-icons">search</i></label>
                     <i class="material-icons">close</i>
                 </div>
             </form>
@@ -99,7 +99,7 @@
 
 
 
-<div class="header row">
+<div class="header row hide">
     @Html.Widget("headerm")
     <div class="header-upper col s12">
         <div class="header-selectors-wrapper">
@@ -155,6 +155,14 @@
             });
 
             return false;
+        });
+        $('div#search').keypress(function (e) {
+            var key = e.which;
+            if (key == 13)  // the enter key code
+            {
+                $('.search-box-button').click();
+                return false;
+            }
         });
         var lastScrollTop = 0;
         $(window).scroll(function (event) {
