@@ -1185,6 +1185,11 @@
     <Content Include="Themes\fresh\Views\Shared\_ProductBox.cshtml" />
     <Content Include="Themes\fresh\Views\Product\HomepageProducts.cshtml" />
     <Content Include="Themes\fresh\Views\Catalog\TopMenu.cshtml" />
+    <Content Include="Themes\fresh\Views\Catalog\CategoryTemplate.ProductsInGridOrLines.cshtml" />
+    <Content Include="Themes\fresh\Views\Product\_ProductBreadcrumb.cshtml" />
+    <Content Include="Themes\fresh\Views\Catalog\_FilterSpecsBox.cshtml" />
+    <Content Include="Themes\fresh\Views\Catalog\_FilterPriceBox.cshtml" />
+    <Content Include="Themes\fresh\Views\Catalog\_CatalogSelectors.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />
