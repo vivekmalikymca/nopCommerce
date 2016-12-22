@@ -1190,6 +1190,7 @@
     <Content Include="Themes\fresh\Views\Catalog\_FilterSpecsBox.cshtml" />
     <Content Include="Themes\fresh\Views\Catalog\_FilterPriceBox.cshtml" />
     <Content Include="Themes\fresh\Views\Catalog\_CatalogSelectors.cshtml" />
+    <Content Include="Themes\fresh\Views\common\Footer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\bin\" />
