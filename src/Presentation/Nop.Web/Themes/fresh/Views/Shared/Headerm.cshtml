@@ -71,13 +71,23 @@
     </nav>
 </div>
 <ul class="side-nav" id="mobile-demo">
-     <ul class="side-nav-cat">
 
-     </ul>
+    <li>
+        <div class="brand-logo card">
+            <div class="card-image">
+                @Html.Action("Logo", "Common")
+            </div>
+            <div class="card-action">
+                @Html.Action("HeaderLinks", "Common")
+            </div>
+        </div>
+    </li>
+    <li class="side-nav-cat">
+    </li>
     <li class="side-nav-footer">
 
     </li>
-   
+
 </ul>
 
 
@@ -155,6 +165,9 @@
     <script>
         var slides;
         $(document).ready(function () {
+            $('.side-nav #topcartlink').remove(); 
+            $('.side-nav .header-links').removeClass();
+            $('#drop_cart .header-links').removeClass();
             slides = $('#nivo-slider>a');
             $('.button-collapse').sideNav({
                 menuWidth: 240, // Default is 240
