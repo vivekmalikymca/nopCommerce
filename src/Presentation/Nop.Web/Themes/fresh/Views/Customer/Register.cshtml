@@ -8,6 +8,13 @@
     //page class
     Html.AppendPageCssClassParts("html-registration-page");
 }
+<style>
+    [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        position: static;
+        left: 0px;
+        opacity: 1;
+    }
+</style>
 @if (Model.CountryEnabled && Model.StateProvinceEnabled)
 {
     <script type="text/javascript">
@@ -91,11 +98,7 @@
                     {
                         <div class="inputs date-of-birth">
                             <label>@T("Account.Fields.DateOfBirth"):</label>
-                        </div>
-                            <div class="row">
-                                <div class="col s12 m8">
-                                    <div class="col s12 m6 right">
-                                        @Html.DatePickerDropDowns(Html.FieldNameFor(x => x.DateOfBirthDay),
+                            @Html.DatePickerDropDowns(Html.FieldNameFor(x => x.DateOfBirthDay),
                                 Html.FieldNameFor(x => x.DateOfBirthMonth),
                                 Html.FieldNameFor(x => x.DateOfBirthYear),
                                 DateTime.Now.Year - 110,
@@ -103,18 +106,14 @@
                                 Model.DateOfBirthDay,
                                 Model.DateOfBirthMonth,
                                 Model.DateOfBirthYear)
-                                        @if (Model.DateOfBirthRequired)
-                                        {
-                                            @Html.RequiredHint()
-                                        }
-                                        @Html.ValidationMessageFor(model => model.DateOfBirthDay)
-                                        @Html.ValidationMessageFor(model => model.DateOfBirthMonth)
-                                        @Html.ValidationMessageFor(model => model.DateOfBirthYear)
-                                    </div>
-                                </div>
-                            </div>
-                           
-                        
+                            @if (Model.DateOfBirthRequired)
+                            {
+                                @Html.RequiredHint()
+                            }
+                            @Html.ValidationMessageFor(model => model.DateOfBirthDay)
+                            @Html.ValidationMessageFor(model => model.DateOfBirthMonth)
+                            @Html.ValidationMessageFor(model => model.DateOfBirthYear)
+                        </div>
                     }
                     <div class="inputs">
                         @Html.LabelFor(model => model.Email, new { }, ":")
@@ -178,7 +177,7 @@
                 </div>
             }
             @if (Model.StreetAddressEnabled || Model.StreetAddress2Enabled || Model.ZipPostalCodeEnabled
-            || Model.CityEnabled || Model.CountryEnabled)
+                || Model.CityEnabled || Model.CountryEnabled)
             {
                 <div class="fieldset">
                     <div class="title">
@@ -236,43 +235,26 @@
                         @if (Model.CountryEnabled)
                         {
                             <div class="inputs">
-
                                 @Html.LabelFor(model => model.CountryId, new { }, ":")
+                                @Html.DropDownList("CountryId", Model.AvailableCountries)
+                                @if (Model.CountryRequired)
+                                {
+                                    @Html.RequiredHint()
+                                }
+                                @Html.ValidationMessageFor(model => model.CountryId)
                             </div>
-                                <div class="row">
-                                <div class="col s12 m8">
-                                    <div class="col s12 m6 right">
-                                        @Html.DropDownList("CountryId", Model.AvailableCountries)
-                                        @if (Model.CountryRequired)
-                                        {
-                                            @Html.RequiredHint()
-                                        }
-                                        @Html.ValidationMessageFor(model => model.CountryId)
-                                     </div>
-                                 </div>
-                                 </div>
-                                
-                            
                         }
                         @if (Model.CountryEnabled && Model.StateProvinceEnabled)
                         {
                             <div class="inputs">
                                 @Html.LabelFor(model => model.StateProvinceId, new { }, ":")
-                               
-                                
-                            </div>
-                            <div class="row">
-                                <div class="col s12 m8">
-                                    <div class="col s12 m6 right">
-                                        @Html.DropDownList("StateProvinceId", Model.AvailableStates)
-                                        @if (Model.StateProvinceRequired)
-                                        {
-                                            @Html.RequiredHint()
-                                        }
-                                        @Html.ValidationMessageFor(model => model.StateProvinceId)
-                                        <span id="states-loading-progress" style="display: none;" class="please-wait">@T("Common.Wait...")</span>
-                                    </div>
-                                </div>
+                                @Html.DropDownList("StateProvinceId", Model.AvailableStates)
+                                @if (Model.StateProvinceRequired)
+                                {
+                                    @Html.RequiredHint()
+                                }
+                                @Html.ValidationMessageFor(model => model.StateProvinceId)
+                                <span id="states-loading-progress" style="display: none;" class="please-wait">@T("Common.Wait...")</span>
                             </div>
                         }
                     </div>
@@ -345,15 +327,8 @@
                         {
                             <div class="inputs">
                                 @Html.LabelFor(model => model.TimeZoneId, new { }, ":")
-                               
-                            </div>
-                            <div class="row">
-                                <div class="col s12 m8">
-                                    <div class="col s12 m6 right">
-                                        @Html.DropDownList("TimeZoneId", Model.AvailableTimeZones)
-                                        @Html.ValidationMessageFor(model => model.TimeZoneId)
-                                    </div>
-                                </div>
+                                @Html.DropDownList("TimeZoneId", Model.AvailableTimeZones)
+                                @Html.ValidationMessageFor(model => model.TimeZoneId)
                             </div>
                         }
                     </div>
@@ -423,4 +398,4 @@
             </div>
         </div>
     </div>
-}
+                }

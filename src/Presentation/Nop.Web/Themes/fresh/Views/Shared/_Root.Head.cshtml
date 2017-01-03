@@ -1,7 +1,9 @@
 ﻿@using Nop.Core.Domain.Common;
 @using Nop.Core.Domain.Seo
 @using Nop.Core.Infrastructure;
+@using Nop.Web.Framework.Themes
 @{
+    
     var displayMiniProfiler = EngineContext.Current.Resolve<Nop.Core.Domain.StoreInformationSettings>().DisplayMiniProfilerInPublicStore;
 
     Html.AppendScriptParts("~/Scripts/public.ajaxcart.js");
@@ -11,6 +13,7 @@
     Html.AppendScriptParts("~/Scripts/jquery.validate.unobtrusive.min.js");
     Html.AppendScriptParts("~/Scripts/jquery.validate.min.js");
     Html.AppendScriptParts("~/Scripts/jquery-1.10.2.min.js");
+
 
     //X-UA-Compatible tag
     var commonSettings = EngineContext.Current.Resolve<CommonSettings>();
@@ -34,6 +37,8 @@
     <meta name="keywords" content="@(Html.NopMetaKeywords())" />
     <meta name="generator" content="nopCommerce" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- me:materialize css -->
+    <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
     @Html.NopHeadCustom()
     @*This is used so that themes can inject content into the header*@
     @Html.Partial("Head")
@@ -49,21 +54,12 @@
     {
         @StackExchange.Profiling.MiniProfiler.RenderIncludes()
     }
-    <!-- me:materialize css -->
-    <link rel="stylesheet" href="//materializecss.com/css/ghpages-materialize.css">
-    <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.0/angular.min.js"></script>
-    <style>
-        select {
-        display: block !important; 
-        }
-    </style>
     <!--Powered by nopCommerce - http://www.nopCommerce.com-->
 </head>
 <body>
     @RenderBody()
     @Html.NopCssFiles(this.Url, ResourceLocation.Foot)
     @Html.NopScripts(this.Url, ResourceLocation.Foot)
-    <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+    @*<script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>*@
 </body>
 </html>
